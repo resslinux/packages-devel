@@ -6,6 +6,7 @@ url='https://github.com/resslinux/crt'
 arch=('x86_64')
 license=('BSD')
 depends=('filesystem')
+makedepends=('make' 'clang')
 source=('git://github.com/resslinux/crt.git')
 sha256sums=('SKIP')
 
