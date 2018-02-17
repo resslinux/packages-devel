@@ -7,9 +7,10 @@ url='https://www.darwinsys.com/file/'
 arch=('x86_64')
 license=('custom')
 depends_doc=()
-depends_lib=('musl' 'zlib')
+depends_lib=('musl')
 depends_dev=('libmagic')
 depends=('libmagic')
+makedepends=('autoconf' 'automake' 'libtool' 'make' 'clang')
 source=('git://github.com/file/file.git')
 sha256sums=('SKIP')
 
