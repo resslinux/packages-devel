@@ -6,7 +6,6 @@ pkgdesc='A GNU tool for automatically creating Makefiles'
 url='https://www.gnu.org/software/automake/automake.html'
 arch=('x86_64')
 license=('GPL2+ MIT Public Domain')
-groups=('base')
 depends_doc=()
 depends=('perl')
 makedepends=('perl' 'texinfo' 'autoconf' 'make' 'clang')
