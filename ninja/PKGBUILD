@@ -8,7 +8,7 @@ arch=('x86_64')
 license=('Apache')
 depends_doc=()
 depends=()
-makedepends=('python')
+makedepends=('python' 'clang')
 source=('git://github.com/ninja-build/ninja.git'
         'musl.patch')
 sha256sums=('SKIP'
