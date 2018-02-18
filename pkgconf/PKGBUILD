@@ -40,6 +40,8 @@ package() {
   cd "${pkgbase}"
 
   make DESTDIR="${tmpdir}" install
+  
+  ln -s pkgconf "${tmpdir}/usr/bin/pkg-config"
 }
 
 package_pkgconf-doc() {
@@ -48,6 +50,13 @@ package_pkgconf-doc() {
 
 package_pkgconf-dev() {
   package-dev
+  
+  mv "${pkgdir}/usr/bin/pkg-config" "${tmpdir}/usr/bin/"
+  rmdir "${pkgdir}/usr/bin"
+  
+  install -d "${tmpdir}/usr/share/aclocal/"
+  mv "${pkgdir}/usr/share/aclocal/pkg.m4" "${tmpdir}/usr/share/aclocal/"
+  rmdir "${pkgdir}/usr/share/aclocal" "${pkgdir}/usr/share"
 }
 
 package_pkgconf() {
