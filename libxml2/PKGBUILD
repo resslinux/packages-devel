@@ -1,0 +1,66 @@
+pkgbase='libxml2'
+pkgname=('libxml2-doc' 'libxml2-dev' 'libxml2' 'libxml2-utils')
+pkgver=2.9.8.rc1.r1.g707ad080
+pkgrel=1
+pkgdesc='XML parsing library, version 2'
+url='http://xmlsoft.org/'
+arch=('x86_64')
+license=('MIT')
+depends_doc=()
+depends_dev=('libxml2')
+depends_lib=('musl' 'zlib')
+depends=('libxml2')
+makedepends=('libtool' 'zlib-dev' 'pkgconf' 'autoconf' 'automake' 'make' 'clang')
+source=('git+https://git.gnome.org/browse/libxml2')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${pkgbase}"
+  
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+  cd "${pkgbase}"
+  
+  CFLAGS=${CFLAGS//'-flto=thin'/'-flto'}
+  CXXFLAGS=${CXXFLAGS//'-flto=thin'/'-flto'}
+  LDFLAGS=${LDFLAGS//'-flto=thin'/'-flto'}
+  
+  ./autogen.sh
+  
+  ./configure --prefix='/usr' \
+              --sysconfdir='/etc' \
+              --mandir='/usr/share/man' \
+              --infodir='/usr/share/info' \
+              --disable-static \
+              --without-python
+  
+  make
+}
+
+package() {
+  package-init
+  
+  cd "${pkgbase}"
+
+  make DESTDIR="${tmpdir}" install
+}
+
+package_libxml2-doc() {
+  package-doc
+}
+
+package_libxml2-dev() {
+  package-dev
+  
+  mv "${tmpdir}"/usr/lib/*.sh "${pkgdir}/usr/lib/"
+}
+
+package_libxml2() {
+  package-lib
+}
+
+package_libxml2-utils() {
+  package-base
+}
