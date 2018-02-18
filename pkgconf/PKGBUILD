@@ -1,0 +1,55 @@
+pkgbase='pkgconf'
+pkgname=('pkgconf-doc' 'pkgconf-dev' 'pkgconf')
+pkgver=1.4.1.r6.ga705b5a
+pkgrel=1
+pkgdesc='Development framework configuration tools'
+url='https://github.com/pkgconf/pkgconf'
+arch=('x86_64')
+license=('ISC')
+depends_doc=()
+depends_dev=('pkgconf')
+depends=('musl')
+makedepends=('autoconf' 'automake' 'libtool' 'make' 'clang')
+source=('git://github.com/pkgconf/pkgconf.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${pkgbase}"
+  
+  git describe --long --tags | sed 's/^pkgconf-//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+  cd "${pkgbase}"
+  
+  ./autogen.sh
+  
+  ./configure --prefix='/usr' \
+              --sysconfdir='/etc' \
+              --mandir='/usr/share/man' \
+              --infodir='/usr/share/info' \
+              --localstatedir='/var' \
+              --with-pkg-config-dir='/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig'
+  
+  make
+}
+
+package() {
+  package-init
+  
+  cd "${pkgbase}"
+
+  make DESTDIR="${tmpdir}" install
+}
+
+package_pkgconf-doc() {
+  package-doc
+}
+
+package_pkgconf-dev() {
+  package-dev
+}
+
+package_pkgconf() {
+  package-base
+}
