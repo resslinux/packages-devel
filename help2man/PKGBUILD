@@ -1,0 +1,41 @@
+pkgbase='help2man'
+pkgname=('help2man-doc' 'help2man')
+pkgver=1.47.5
+pkgrel=1
+pkgdesc='Create simple man pages from --help output'
+url='https://www.gnu.org/software/help2man/help2man.html'
+arch=('x86_64')
+license=('GPL')
+depends_doc=()
+depends=('musl')
+makedepends=('perl' 'make' 'clang' 'xz')
+source=("https://ftp.gnu.org/gnu/help2man/help2man-${pkgver}.tar.xz")
+sha256sums=('SKIP')
+
+build() {
+  cd "${pkgbase}-${pkgver}"
+
+  ./configure --prefix='/usr' \
+              --sysconfdir='/etc' \
+              --mandir='/usr/share/man' \
+              --infodir='/usr/share/info' \
+              --localstatedir='/var'
+  
+  make
+}
+
+package() {
+  package-init
+  
+  cd "${pkgbase}-${pkgver}"
+
+  make DESTDIR="${tmpdir}" install
+}
+
+package_help2man-doc() {
+  package-doc
+}
+
+package_help2man() {
+  package-base
+}
