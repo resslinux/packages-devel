@@ -11,7 +11,7 @@ depends_dev=('libxml2')
 depends_lib=('musl' 'zlib')
 depends=('libxml2')
 makedepends=('libtool' 'zlib-dev' 'pkgconf' 'autoconf' 'automake' 'make' 'clang')
-source=('git+https://git.gnome.org/browse/libxml2')
+source=('git://git.gnome.org/libxml2')
 sha256sums=('SKIP')
 
 pkgver() {
