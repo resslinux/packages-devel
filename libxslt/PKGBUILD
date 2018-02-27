@@ -1,0 +1,54 @@
+pkgbase='libxslt'
+pkgname=('libxslt-doc' 'libxslt-dev' 'libxslt')
+pkgver=1.1.33.rc1.r0.g51b79bfa
+pkgrel=1
+pkgdesc='XML stylesheet transformation library'
+url='http://xmlsoft.org/XSLT/'
+arch=('x86_64')
+license=('custom')
+depends_doc=()
+depends_dev=('libxslt')
+depends=('musl' 'libxml2')
+makedepends=('libxml2-dev' 'pkgconf' 'libtool' 'autoconf' 'automake' 'make' 'clang')
+source=('git://git.gnome.org/libxslt')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${pkgbase}"
+  
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+  cd "${pkgbase}"
+  
+  ./autogen.sh
+  
+  ./configure --prefix=/usr \
+              --without-crypto \
+              --without-python
+  
+  make
+}
+
+package() {
+  package-init
+  
+  cd "${pkgbase}"
+
+  make DESTDIR="${tmpdir}" install
+  
+  install -D -m644 COPYING "${tmpdir}/usr/share/licenses/${pkgbase}/COPYING"
+}
+
+package_libxslt-doc() {
+  package-doc
+}
+
+package_libxslt-dev() {
+  package-dev
+}
+
+package_libxslt() {
+  package-base
+}
