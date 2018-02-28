@@ -1,0 +1,54 @@
+pkgbase='asciidoc'
+pkgname=('asciidoc-doc' 'asciidoc')
+pkgver=8.6.10.r4.g5f0652b
+pkgrel=1
+pkgdesc='Text based documentation'
+url='https://asciidoc.org/'
+arch=('x86_64')
+license=('GPL')
+depends_doc=()
+depends=('python2' 'libxslt')
+makedepends=('libxslt' 'libxml2-utils' 'autoconf' 'automake' 'make' 'clang')
+source=('git://github.com/asciidoc/asciidoc.git'
+        'xmllint.patch')
+sha256sums=('SKIP'
+            '6c706e16ccd7cfeae48fa2fb79c965681c634db964b336e75251c15a4913c72f')
+
+pkgver() {
+  cd "${pkgbase}"
+  
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "${pkgbase}"
+  
+  patch -Np1 -i "${srcdir}/xmllint.patch"
+}
+
+build() {
+  cd "${pkgbase}"
+  
+  autoreconf -i
+  
+  ./configure --prefix='/usr' \
+              --sysconfdir='/etc'
+  
+  make
+}
+
+package() {
+  package-init
+  
+  cd "${pkgbase}"
+
+  make DESTDIR="${tmpdir}" install
+}
+
+package_asciidoc-doc() {
+  package-doc
+}
+
+package_asciidoc() {
+  package-base
+}
