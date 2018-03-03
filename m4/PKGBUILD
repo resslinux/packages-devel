@@ -1,0 +1,57 @@
+pkgbase='m4'
+pkgname=('m4-doc' 'm4')
+pkgver=1.4.18.r2.g10237691
+pkgrel=1
+pkgdesc='GNU macro processor'
+url='https://www.gnu.org/software/m4/m4.html'
+arch=('x86_64')
+license=('GPL')
+depends_doc=()
+depends=('musl')
+makedepends=('texinfo' 'help2man' 'm4' 'xz' 'join' 'autoconf' 'automake' 'make' 'clang')
+source=('git://git.savannah.gnu.org/m4.git#branch=branch-1.4'
+        'git://git.savannah.gnu.org/gnulib.git')
+sha256sums=('SKIP'
+            'SKIP')
+
+pkgver() {
+  cd "${pkgbase}"
+  
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+  cd "${pkgbase}"
+  
+  CFLAGS=${CFLAGS//'-flto=thin'/'-flto'}
+  CXXFLAGS=${CXXFLAGS//'-flto=thin'/'-flto'}
+  LDFLAGS=${LDFLAGS//'-flto=thin'/'-flto'}
+  
+  ./bootstrap --skip-git --gnulib-srcdir="${srcdir}/gnulib/"
+  
+  ./configure --prefix='/usr' \
+              --disable-gcc-warnings
+  
+  make
+}
+
+package() {
+  package-init
+  
+  cd "${pkgbase}"
+  
+  make install DESTDIR="${tmpdir}"
+  
+  rm "${tmpdir}/usr/lib/charset.alias"
+  rmdir "${tmpdir}/usr/lib/"
+}
+
+package_m4-doc() {
+  package-doc
+}
+
+package_m4() {
+  groups=('base-devel')
+  
+  package-base
+}
