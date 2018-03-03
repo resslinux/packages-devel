@@ -1,0 +1,63 @@
+pkgbase='flex'
+pkgname=('flex-doc' 'libfl-dev' 'libfl' 'flex')
+pkgver=2.6.4.r72.ge104f55
+pkgrel=1
+pkgdesc='A tool for generating text-scanning programs'
+url='https://github.com/westes/flex'
+arch=('x86_64')
+license=('custom')
+depends_doc=()
+depends_dev=('libfl')
+depends_lib=('musl')
+depends=('musl' 'libfl')
+makedepends=('help2man' 'texinfo' 'flex' 'bison' 'gettext-dev' 'libtool' 'm4' 'autoconf' 'automake' 'make' 'clang')
+source=('git://github.com/westes/flex.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${pkgbase}"
+  
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+  cd "${pkgbase}"
+  
+  ./autogen.sh
+  
+  ./configure --prefix='/usr' \
+              --mandir='/usr/share/man' \
+              --infodir='/usr/share/info' \
+              --disable-static \
+              --enable-shared \
+              ac_cv_func_malloc_0_nonnull=yes \
+              ac_cv_func_realloc_0_nonnull=yes
+  
+  make
+}
+
+package() {
+  package-init
+  
+  cd "${pkgbase}"
+
+  make DESTDIR="${tmpdir}" install
+  
+  ln -s flex "${tmpdir}/usr/bin/lex"
+}
+
+package_flex-doc() {
+  package-doc
+}
+
+package_libfl-dev() {
+  package-dev
+}
+
+package_libfl() {
+  package-lib
+}
+
+package_flex() {
+  package-base
+}
