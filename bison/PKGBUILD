@@ -1,0 +1,61 @@
+pkgbase='bison'
+pkgname=('bison-doc' 'bison')
+pkgver=3.0.4.r16.gd6445ec1
+pkgrel=1
+pkgdesc='The GNU general-purpose parser generator'
+url='https://www.gnu.org/software/bison/bison.html'
+arch=('x86_64')
+license=('GPL3')
+depends_doc=()
+depends=('musl')
+makedepends=('texinfo' 'help2man' 'flex' 'join' 'gettext-dev' 'autoconf' 'automake' 'make' 'clang')
+source=('git://git.savannah.gnu.org/bison.git'
+        'git://git.savannah.gnu.org/gnulib.git')
+sha256sums=('SKIP'
+            'SKIP')
+
+pkgver() {
+  cd "${pkgbase}"
+  
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "${pkgbase}"
+  
+  rmdir "gnulib"
+  ln -s "${srcdir}/gnulib" "./"
+}
+
+build() {
+  cd "${pkgbase}"
+  
+  git submodule update --init submodules/autoconf
+  
+  ./bootstrap --no-git --gnulib-srcdir="gnulib" --skip-po
+  
+  ./configure --prefix='/usr' \
+              --datadir='/usr/share' \
+              --infodir='/usr/share/info' \
+              --mandir='/usr/share/man'
+  
+  make
+}
+
+package() {
+  package-init
+  
+  cd "${pkgbase}"
+
+  make DESTDIR="${tmpdir}" install
+  
+  rm "${tmpdir}/usr/lib/charset.alias"
+}
+
+package_bison-doc() {
+  package-doc
+}
+
+package_bison() {
+  package-base
+}
