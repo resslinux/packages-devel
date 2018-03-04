@@ -1,0 +1,11 @@
+--- a/doc/Makefile.in
++++ b/doc/Makefile.in
+@@ -64,7 +64,7 @@
+ 
+ VPATH = $(srcdir)
+ 
+-all : info pdf html man
++all : info html man
+ 
+ 
+ info : $(srcdir)/gperf.info

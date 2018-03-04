@@ -1,0 +1,56 @@
+pkgbase='gperf'
+pkgname=('gperf-doc' 'gperf')
+pkgver=3.1.r7.g1edd38e
+pkgrel=1
+pkgdesc='Perfect hash function generator'
+url='https://www.gnu.org/software/gperf/'
+arch=('x86_64')
+license=('GPL3')
+depends_doc=()
+depends=('musl' 'libcxx' 'libcxxabi' 'libunwind')
+makedepends=('texinfo' 'autoconf' 'make' 'clang')
+source=('git://git.savannah.gnu.org/gperf.git'
+        'autoconf.patch'
+        'doc.patch')
+sha256sums=('SKIP'
+            '249f43261d501bd746fb7a530e30b1ddbc0ba179920b013837232286338d1d0d'
+            '93a7d0ae99fb2038b8255848371ba58b53fd77639e533b7da42b430f741569bd')
+
+pkgver() {
+  cd "${pkgbase}"
+  
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "${pkgbase}"
+  
+  patch -Np1 -i "${srcdir}/autoconf.patch"
+  patch -Np1 -i "${srcdir}/doc.patch"
+}
+
+build() {
+  cd "${pkgbase}"
+  
+  ./autogen.sh
+  
+  ./configure --prefix='/usr'
+  
+  make
+}
+
+package() {
+  package-init
+  
+  cd "${pkgbase}"
+
+  make DESTDIR="${tmpdir}" install
+}
+
+package_gperf-doc() {
+  package-doc
+}
+
+package_gperf() {
+  package-base
+}

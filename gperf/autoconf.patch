@@ -1,0 +1,11 @@
+--- a/Makefile.devel
++++ b/Makefile.devel
+@@ -17,7 +17,7 @@
+ 	cd lib && autoconf -I .. && rm -rf autom4te.cache
+ 
+ src/configure : src/configure.ac aclocal.m4
+-	cd src && autoconf -I .. && rm -rf autom4te.cache
++	cd src && autoconf -I ..
+ 
+ tests/configure : tests/configure.ac aclocal.m4
+ 	cd tests && autoconf -I .. && rm -rf autom4te.cache
