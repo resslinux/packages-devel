@@ -10,7 +10,7 @@ depends_doc=()
 depends_dev=('libfl')
 depends_lib=('musl')
 depends=('musl' 'libfl')
-makedepends=('help2man' 'texinfo' 'flex' 'bison' 'gettext-dev' 'libtool' 'm4' 'autoconf' 'automake' 'make' 'clang')
+makedepends=('help2man' 'texinfo' 'flex' 'bison' 'gettext-tiny' 'libtool' 'm4' 'autoconf' 'automake' 'make' 'clang')
 source=('git://github.com/westes/flex.git')
 sha256sums=('SKIP')
 
