@@ -1,6 +1,6 @@
 pkgbase='libxml2'
 pkgname=('libxml2-doc' 'libxml2-dev' 'libxml2' 'libxml2-utils')
-pkgver=2.9.8.rc1.r1.g707ad080
+pkgver=2.9.8.r0.g18890f47
 pkgrel=1
 pkgdesc='XML parsing library, version 2'
 url='http://xmlsoft.org/'
@@ -8,9 +8,9 @@ arch=('x86_64')
 license=('MIT')
 depends_doc=()
 depends_dev=('libxml2')
-depends_lib=('musl' 'zlib')
+depends_lib=('musl' 'zlib-ng')
 depends=('libxml2')
-makedepends=('libtool' 'zlib-dev' 'pkgconf' 'autoconf' 'automake' 'make' 'clang')
+makedepends=('libtool' 'zlib-ng-dev' 'pkgconf' 'autoconf' 'automake' 'make' 'clang')
 source=('git://git.gnome.org/libxml2')
 sha256sums=('SKIP')
 
