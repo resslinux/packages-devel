@@ -1,0 +1,20 @@
+pkgname='bsd-compat-headers'
+pkgver=20171002
+pkgrel=1
+pkgdesc='BSD compatibility headers (cdefs, queue, tree)'
+url='https://alpinelinux.org/'
+arch=('any')
+license=('BSD')
+depends=('filesystem')
+source=('sys-cdefs.h'
+        'sys-queue.h'
+        'sys-tree.h')
+sha256sums=('30bb6d7e0e0b61fcd95d830c376c829a614bce4683c1b97e06c201ec2c6e839a'
+            'f47ea9ef6b486370634f47bfd2f58bf4acbb483ef96ff370d3076662b3db48cb'
+            'e1e498a79bf160a5766fa560f2b07b206fe89fe21a62600c77d72e00a6992f92')
+
+package() {
+  install -D "${srcdir}/sys-cdefs.h" "${pkgdir}/usr/include/sys/cdefs.h"
+  install -D "${srcdir}/sys-queue.h" "${pkgdir}/usr/include/sys/queue.h"
+  install -D "${srcdir}/sys-tree.h" "${pkgdir}/usr/include/sys/tree.h"
+}
