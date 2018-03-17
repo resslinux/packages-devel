@@ -1,0 +1,24 @@
+pkgname='repo-updater'
+pkgver=20180122.r5.g4cad18c
+pkgrel=1
+pkgdesc='Repo update scripts'
+url='https://github.com/resslinux/repo-updater'
+arch=('any')
+license=('BSD')
+depends=('makepkg')
+makedepends=('make')
+backup=('etc/repo-daemon.conf')
+source=('git://github.com/resslinux/repo-updater.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${pkgname}"
+  
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+package() {
+  cd "${pkgbase}"
+
+  make DESTDIR="${pkgdir}" install
+}
