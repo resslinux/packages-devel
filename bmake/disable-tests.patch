@@ -1,0 +1,10 @@
+--- a/boot-strap
++++ b/boot-strap
+@@ -421,7 +421,6 @@
+ 
+ op_test() {
+ 	[ -x bmake ] || op_build
+-	Bmake test || exit 1
+ }
+ 
+ op_clean() {
