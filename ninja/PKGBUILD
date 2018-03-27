@@ -7,7 +7,7 @@ url='https://ninja-build.org/'
 arch=('x86_64')
 license=('Apache')
 depends_doc=()
-depends=()
+depends=('musl' 'libcxx' 'libcxxabi' 'libunwind')
 makedepends=('python' 'clang')
 source=('git://github.com/ninja-build/ninja.git'
         'musl.patch')
