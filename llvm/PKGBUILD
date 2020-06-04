@@ -50,7 +50,10 @@ build() {
         -DLLVM_ENABLE_LIBCXX=ON \
         -DLLVM_LINK_LLVM_DYLIB=ON \
         -DLLVM_ENABLE_BACKTRACES=OFF \
+        -DLLVM_ENABLE_LIBEDIT=OFF \
+        -DLLVM_ENABLE_LIBXML2=OFF \
         -DLLVM_ENABLE_LLD=ON \
+        -DLLVM_ENABLE_TERMINFO=OFF \
         -DLLVM_ENABLE_ZLIB=ON \
         -DLLVM_INSTALL_UTILS=ON \
         -DLLVM_TARGETS_TO_BUILD=X86 \
@@ -59,6 +62,10 @@ build() {
         -DCLANG_DEFAULT_CXX_STDLIB='libc++' \
         -DCLANG_DEFAULT_RTLIB='compiler-rt' \
         -DCLANG_PLUGIN_SUPPORT=OFF \
+        \
+        -DCOMPILER_RT_BUILD_SANITIZERS=OFF \
+        -DCOMPILER_RT_BUILD_XRAY=OFF \
+        -DCOMPILER_RT_INCLUDE_TESTS=OFF \
         \
         -DLIBCXX_CXX_ABI='libcxxabi' \
         -DLIBCXX_CXX_ABI_INCLUDE_PATHS="${srcdir}/libcxxabi/include" \
@@ -71,10 +78,6 @@ build() {
         -DLIBUNWIND_USE_COMPILER_RT=ON \
         \
         -DSANITIZER_CXX_ABI='libcxxabi' \
-        -DSANITIZER_USE_COMPILER_RT=ON \
-        -DCOMPILER_RT_BUILD_SANITIZERS=OFF \
-        -DCOMPILER_RT_BUILD_XRAY=OFF \
-        -DCOMPILER_RT_INCLUDE_TESTS=OFF \
         \
         "../llvm"
   
