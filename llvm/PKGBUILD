@@ -26,17 +26,12 @@ prepare() {
 build() {
   cd "${pkgbase}"
 
-  if [ ! -d "build" ]; then
-    mkdir "build"
-  fi
-  
-  cd "build"
-  
   CFLAGS=${CFLAGS//'-flto=thin'/'-flto'}
   CXXFLAGS=${CXXFLAGS//'-flto=thin'/'-flto'}
   LDFLAGS=${LDFLAGS//'-flto=thin'/'-flto'}
   
   cmake -G 'Ninja' \
+        -B 'build' \
         -DCMAKE_BUILD_TYPE='Release' \
         -DCMAKE_INSTALL_PREFIX='/usr' \
         -DCMAKE_C_COMPILER=clang \
@@ -75,9 +70,9 @@ build() {
         \
         -DSANITIZER_CXX_ABI='libcxxabi' \
         \
-        "../llvm"
+        "llvm"
   
-  samu
+  samu -C build
 }
 
 package(){
