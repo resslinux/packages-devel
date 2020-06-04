@@ -1,9 +1,3 @@
 src/ 
 pkg/
-llvm/
-clang/
-lld/
-compiler-rt/
-libunwind/
-libcxx/
-libcxxabi/
+llvm-project/
