@@ -1,6 +1,6 @@
 pkgbase='llvm-project'
 pkgname=('compiler-rt' 'libunwind' 'libunwind-dev' 'libcxxabi' 'libcxxabi-dev' 'libcxx' 'libcxx-dev' 'libclang' 'libclang-dev' 'clang' 'lld-dev' 'lld' 'llvm-lib' 'llvm-dev' 'llvm')
-pkgver=11.0.0.r355960.g81826c7a
+pkgver=11.init.r16733.g87e24c32008
 pkgrel=1
 arch=('x86_64')
 url='https://llvm.org/'
@@ -14,11 +14,7 @@ sha256sums=('SKIP'
 pkgver() {
   cd "${pkgbase}/llvm"
   
-  echo $(awk -F 'MAJOR |MINOR |PATCH |)' \
-            'BEGIN { ORS="." ; i=0 } \
-             /set\(LLVM_VERSION_/ { print $2 ; i++ ; if (i==2) ORS="" } \
-             END { print "\n" }' \
-        CMakeLists.txt).r$(git rev-list --count master).g$(git rev-parse HEAD | cut -c1-8)
+  git describe --long --tags | sed 's/^llvmorg.//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 prepare() {
