@@ -5,7 +5,7 @@ pkgrel=1
 arch=('x86_64')
 url='https://llvm.org/'
 license=('custom:University of Illinois')
-makedepends=('python' 'zlib-ng-dev' 'libclang-dev' 'cmake' 'ninja' 'clang')
+makedepends=('python' 'zlib-ng-dev' 'libclang-dev' 'cmake' 'samurai' 'clang')
 source=('git://github.com/llvm/llvm-project.git'
         'musl.patch')
 sha256sums=('SKIP'
@@ -78,7 +78,7 @@ build() {
         \
         "../llvm"
   
-  ninja
+  samu
 }
 
 package(){
@@ -98,7 +98,7 @@ package_compiler-rt() {
   
   cd "${pkgbase}/build"
   
-  DESTDIR="${pkgdir}" ninja projects/compiler-rt/install
+  DESTDIR="${pkgdir}" samu projects/compiler-rt/install
 }
 
 package_libunwind(){
@@ -108,7 +108,7 @@ package_libunwind(){
   
   package-init
   
-  DESTDIR="${tmpdir}" ninja projects/libunwind/install
+  DESTDIR="${tmpdir}" samu projects/libunwind/install
   
   package-lib
 }
@@ -126,7 +126,7 @@ package_libcxxabi(){
   
   package-init
   
-  DESTDIR="${tmpdir}" ninja projects/libcxxabi/install
+  DESTDIR="${tmpdir}" samu projects/libcxxabi/install
   
   package-lib
 }
@@ -144,7 +144,7 @@ package_libcxx() {
   
   package-init
   
-  DESTDIR="${tmpdir}" ninja projects/libcxx/install
+  DESTDIR="${tmpdir}" samu projects/libcxx/install
   
   package-lib
 }
@@ -162,7 +162,7 @@ package_libclang() {
   
   package-init
   
-  DESTDIR="${tmpdir}" ninja tools/clang/install
+  DESTDIR="${tmpdir}" samu tools/clang/install
   
   package-lib
 }
@@ -187,7 +187,7 @@ package_lld-dev() {
   
   package-init
   
-  DESTDIR="${tmpdir}" ninja tools/lld/install
+  DESTDIR="${tmpdir}" samu tools/lld/install
   
   package-dev
 }
@@ -207,7 +207,7 @@ package_llvm-lib() {
   
   package-init
   
-  DESTDIR="${tmpdir}" ninja install
+  DESTDIR="${tmpdir}" samu install
   
   package-lib
   
